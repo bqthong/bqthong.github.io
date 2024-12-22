@@ -2,47 +2,47 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 	
 	<url>
-		<loc>https://example.com/blog/firstpost/</loc>
-		<lastmod>2018-05-01</lastmod>
+		<loc>https://bqthong.github.io/blog/firstpost/</loc>
+		<lastmod>01/05/2018</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://example.com/blog/secondpost/</loc>
-		<lastmod>2018-07-04</lastmod>
+		<loc>https://bqthong.github.io/blog/secondpost/</loc>
+		<lastmod>04/07/2018</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://example.com/blog/thirdpost/</loc>
-		<lastmod>2018-08-24</lastmod>
+		<loc>https://bqthong.github.io/blog/thirdpost/</loc>
+		<lastmod>24/08/2018</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://example.com/blog/fourthpost/</loc>
-		<lastmod>2018-09-30</lastmod>
+		<loc>https://bqthong.github.io/blog/fourthpost/</loc>
+		<lastmod>30/09/2018</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://example.com/about/</loc>
-		<lastmod>2024-12-22</lastmod>
+		<loc>https://bqthong.github.io/about/</loc>
+		<lastmod>22/12/2024</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://example.com/blog/</loc>
-		<lastmod>2024-12-22</lastmod>
+		<loc>https://bqthong.github.io/blog/</loc>
+		<lastmod>22/12/2024</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://example.com/</loc>
-		<lastmod>2024-12-22</lastmod>
+		<loc>https://bqthong.github.io/</loc>
+		<lastmod>22/12/2024</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://example.com/tags/</loc>
-		<lastmod>2024-12-22</lastmod>
+		<loc>https://bqthong.github.io/tags/</loc>
+		<lastmod>22/12/2024</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://example.com/feed/feed.xml</loc>
-		<lastmod>2024-12-22</lastmod>
+		<loc>https://bqthong.github.io/feed/feed.xml</loc>
+		<lastmod>22/12/2024</lastmod>
 	</url>
 </urlset>
