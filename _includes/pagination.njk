@@ -1,21 +1,3 @@
----js
-// <script>
-const eleventyNavigation = {
-	key: "Archive",
-	order: 2,
-
-};
-const pagination = {
-	data: "collections.posts",
-	size: 10,
-	filter: ["all", "posts"],
-	reverse: true
-};
----
-<h1>Archive</h1>
-
-{% set postslist = pagination.items %}
-{% include "postslist.njk" %}
 {% if pagination.href.next or pagination.href.previous %}
   <nav>
     <span>
