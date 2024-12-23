@@ -1,10 +1,41 @@
 ---js
+// <script>
 const eleventyNavigation = {
 	key: "Archive",
-	order: 2
+	order: 2,
+
+};
+const pagination = {
+	data: "collections.posts",
+	size: 10,
+	filter: ["all", "posts"],
+	reverse: true
 };
 ---
 <h1>Archive</h1>
 
-{% set postslist = collections.posts %}
+{% set postslist = pagination.items %}
 {% include "postslist.njk" %}
+{% if pagination.href.next or pagination.href.previous %}
+  <nav>
+    <span>
+      {# {% if pagination.href.previous %} #}
+        <a href="{{ pagination.href.previous }}">
+          <span>Previous</span>
+        </a>
+      {# {% endif %} #}
+    </span>
+    <span>
+      {%- for pageEntry in pagination.pages %}
+        {% if page.url == pagination.hrefs[ loop.index0 ] %}{{ loop.index }} of {{ pagination.pages.length }}{% endif %}
+      {%- endfor %}
+    </span>
+    <span>
+      {# {% if pagination.href.next %} #}
+        <a href="{{ pagination.href.next }}">
+          <span>Next</span>
+        </a>
+      {# {% endif %} #}
+    </span>
+  </nav>
+{% endif %}
