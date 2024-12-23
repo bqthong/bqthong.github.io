@@ -2,32 +2,57 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 	
 	<url>
-		<loc>https://bqthong.github.io/blog/firstpost/</loc>
-		<lastmod>01/05/2018</lastmod>
+		<loc>https://bqthong.github.io/blog/hoisting-trong-javascript/</loc>
+		<lastmod>18/03/2020</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://bqthong.github.io/blog/secondpost/</loc>
-		<lastmod>04/07/2018</lastmod>
+		<loc>https://bqthong.github.io/blog/phan-biet-let-const-var/</loc>
+		<lastmod>28/03/2020</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://bqthong.github.io/blog/thirdpost/</loc>
-		<lastmod>24/08/2018</lastmod>
+		<loc>https://bqthong.github.io/blog/scope-trong-javascript/</loc>
+		<lastmod>30/03/2020</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://bqthong.github.io/blog/fourthpost/</loc>
-		<lastmod>30/09/2018</lastmod>
+		<loc>https://bqthong.github.io/blog/tu-khoa-this-trong-javascript/</loc>
+		<lastmod>02/04/2020</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://bqthong.github.io/blog/prototype-va-thua-ke-trong-javascript/</loc>
+		<lastmod>29/04/2020</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://bqthong.github.io/blog/angular-lifecycle-va-change-detection/</loc>
+		<lastmod>18/05/2022</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://bqthong.github.io/blog/component-interaction-trong-angular/</loc>
+		<lastmod>01/08/2022</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://bqthong.github.io/blog/two-way-data-binding-trong-angular/</loc>
+		<lastmod>04/10/2022</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://bqthong.github.io/blog/ng-container-ng-content-ng-template-va-ngtemplateoutlet-trong-angular/</loc>
+		<lastmod>11/11/2022</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://bqthong.github.io/blog/van-de-timezone-trong-du-an/</loc>
+		<lastmod>05/07/2023</lastmod>
 	</url>
 	
 	<url>
 		<loc>https://bqthong.github.io/about/</loc>
-		<lastmod>23/12/2024</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://bqthong.github.io/blog/</loc>
 		<lastmod>23/12/2024</lastmod>
 	</url>
 	

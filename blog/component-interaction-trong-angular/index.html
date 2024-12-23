@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Component interaction trong angular</title>
+		<meta name="description" content="Welcome to Thong Bui personal blog">
+		<link rel="alternate" href="feed/feed.xml" type="application/atom+xml" title="Thong Bui&#39;s Home">
+		
+		<style>/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 50em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img {
+  max-width: 100%;
+}
+img[width][height] {
+  height: auto;
+}
+img[src$=".svg"] {
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+.links-nextprev > * {
+	flex-grow: 1;
+}
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">Thong Bui&#39;s Home</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/about/">About</a></li>
+					<li class="nav-item"><a href="/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main>
+			<heading-anchors>
+				
+<h1 id="component-interaction-trong-angular">Component interaction trong angular</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="01/08/2022">01/08/2022</time></li>
+	<li><a href="/tags/angular-component/" class="post-tag">angular-component</a>, </li>
+	<li><a href="/tags/angular-service/" class="post-tag">angular-service</a>, </li>
+	<li><a href="/tags/viewchild/" class="post-tag">viewchild</a></li>
+</ul>
+
+<p>Trong một ứng dụng, có nhiều component và chúng cần tương tác với nhau(component interaction). Trong bài viết này, chúng ta sẽ tìm hiểu cách để các component giao tiếp với nhau trong angular.</p>
+<h2 id="component-cha-va-component-con">Component Cha và component Con</h2>
+<p>Trong Angular, bạn có thể chia ứng dụng của mình thành nhiều component nhỏ. Các component có thể được lồng nhau, component chứa một component khác được gọi là component cha, component bên trong được gọi là component con.</p>
+<p>Vì vậy việc tương tác giữa các component cha và con là một phần quan trọng, làm sao để cha truyền dữ liệu cho con, làm sao để con emit sự kiện cho cha, hoặc làm sao để cha truy cập được các thuộc tính của con.</p>
+<h2 id="truyen-data-tu-cha-den-con-dung-input-property">Truyền data từ Cha đến Con dùng Input property</h2>
+<p>Cách phổ biến nhất để truyền dữ liệu từ cha con là dùng input properties, sử dụng @Input decorator. Trong component con, bạn định nghĩa một input property:</p>
+<pre class="language-js" tabindex="0"><code class="language-js">@<span class="token function">Input</span><span class="token punctuation">(</span><span class="token punctuation">)</span> name<span class="token operator">:</span> string<span class="token punctuation">;</span>
+<span class="token comment">// Hoặc set giá trị default</span>
+@<span class="token function">Input</span><span class="token punctuation">(</span><span class="token punctuation">)</span> name<span class="token operator">:</span> string <span class="token operator">=</span> <span class="token string">'default name'</span><span class="token punctuation">;</span></code></pre>
+<p>Trong template của component cha, bạn có thể truyền dữ liệu cho component con như sau:</p>
+<pre class="language-html" tabindex="0"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>app-con</span> <span class="token attr-name">[name]</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>name<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>app-con</span><span class="token punctuation">></span></span></code></pre>
+<p>data đã được truyền vào component con, tuy nhiên trong thực tế có thể bạn cần validate kiểm soát dữ liệu đầu vào hoặc làm một action nào đó khi phát hiện input value bị thay đổi. Có 2 cách phổ biến để biết được input value thay đổi:</p>
+<p>Sử dụng getter/setter:</p>
+<pre class="language-js" tabindex="0"><code class="language-js">@<span class="token function">Input</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">get</span> <span class="token function">name</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> string <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>_name<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token keyword">set</span> <span class="token function">name</span><span class="token punctuation">(</span><span class="token parameter"><span class="token literal-property property">name</span><span class="token operator">:</span> string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>_name <span class="token operator">=</span> <span class="token punctuation">(</span>name <span class="token operator">&amp;&amp;</span> name<span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token string">''</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>_name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// doSomeThing()</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">private</span> _name <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span></code></pre>
+<p>Sử dụng hàm ngOnChanges của hook OnChanges:</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token function">ngOnChanges</span><span class="token punctuation">(</span>changes<span class="token operator">:</span> SimpleChanges<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span>name<span class="token punctuation">}</span> <span class="token operator">=</span> changes<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">.</span>currentValue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token comment">// doSomeThing()</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="cha-tuong-tac-voi-con-dung-template-reference-variable">Cha tương tác với Con dùng <em>template reference variable</em></h2>
+<p>Mặc định component cha không thể sử dụng property/method của component con. Angular support cho bạn một số cách để làm điều đó, phổ biến nhất là dùng <em>template reference variable</em> và <em>ViewChild</em>. Dưới đây là ví dụ về <em>template reference variable</em>:</p>
+<p>Giả sử trong ví dụ trên bạn có 1 method là showName() trong component con:</p>
+<pre class="language-js" tabindex="0"><code class="language-js">@<span class="token function">Input</span><span class="token punctuation">(</span><span class="token punctuation">)</span> name<span class="token operator">:</span> string<span class="token punctuation">;</span><span class="token function">showName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>    <span class="token function">alert</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token punctuation">}</span></code></pre>
+<p>Để gọi được hàm showName từ component cha, trong template của component cha bạn tạo một local variable:</p>
+<pre class="language-html" tabindex="0"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>button<span class="token punctuation">"</span></span> <span class="token attr-name">(click)</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>appcon.showName()<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Show Name<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>app-con</span> <span class="token attr-name">#appcon</span> <span class="token attr-name">[name]</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>name<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>app-con</span><span class="token punctuation">></span></span></code></pre>
+<p>Variable <em>#appcon</em> cho phép bạn truy cập vào bất kỳ property/method của component con.</p>
+<p>Tuy nhiên điểm hạn chế của kỹ thuật <em>template reference variable</em> là cha chỉ tương tác với con trong template. không thể thực hiện trong class cha. Để tương tác với component con trong class cha, lúc này bạn cần dùng kỹ thuật inject ViewChild.</p>
+<h2 id="cha-tuong-tac-voi-con-dung-viewchild">Cha tương tác với Con dùng ViewChild</h2>
+<p>Như đã trình bày ở trên. trong một số trường hợp, bạn có thể cần truy cập property/method của component con trực tiếp từ component cha. Bạn cần sử dụng ViewChild, trong đó 2 cách thường sử dụng:</p>
+<p>Truy cập component con qua template variable:</p>
+<pre class="language-js" tabindex="0"><code class="language-js">@<span class="token function">ViewChild</span><span class="token punctuation">(</span><span class="token string">'componentConTpl'</span><span class="token punctuation">)</span> componentConTpl<span class="token operator">:</span> TemplateRef<span class="token operator">&lt;</span>any<span class="token operator">></span><span class="token punctuation">;</span></code></pre>
+<p>Truy cập component con qua decorator @Component or @Directive</p>
+<pre class="language-js" tabindex="0"><code class="language-js">@<span class="token function">ViewChild</span><span class="token punctuation">(</span>ComponentCon<span class="token punctuation">)</span> componentCon<span class="token operator">:</span> ComponentCon<span class="token punctuation">;</span></code></pre>
+<p>Lúc này bạn có thể truy cập tất các property/method của <code>componentCon</code> từ class cha.</p>
+<p>Tuy nhiên cần lưu ý rằng ViewChild có 1 config mặc định là <strong>static: false</strong>. Có nghĩa rằng resolve query result sẽ chạy sau <a href="/angular-lifecycle-va-change-detection">change detection</a>. Bạn không thể truy cập component con trong ngOnInit mà truy cập ở <code>ngAfterViewInit</code>. Nếu bạn muốn truy cập component con trong ngOnInit, cần config thành <strong>static: true</strong> và đảm bảo rằng component con không thay đổi trong suốt vòng đời của nó (không nằm trong *ngIf, ...).</p>
+<pre class="language-js" tabindex="0"><code class="language-js">@<span class="token function">ViewChild</span><span class="token punctuation">(</span><span class="token string">'componentConTpl'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token keyword">static</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">}</span><span class="token punctuation">)</span> componentConTpl<span class="token operator">:</span> TemplateRef<span class="token operator">&lt;</span>any<span class="token operator">></span><span class="token punctuation">;</span></code></pre>
+<h2 id="emit-event-tu-con-den-cha-dung-output-property">Emit event từ Con đến Cha dùng Output property</h2>
+<p>Component có thể emit event thông qua Output property, và component cha có thể lắng nghe nó.</p>
+<p>Trong component con bạn định nghĩa một output property:</p>
+<pre class="language-js" tabindex="0"><code class="language-js">@<span class="token function">Output</span><span class="token punctuation">(</span><span class="token punctuation">)</span> dataChanged<span class="token operator">:</span> EventEmitter<span class="token operator">&lt;</span>any<span class="token operator">></span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">EventEmitter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Khi nào cần emit 1 event cho component cha, bạn dùng cú pháp:</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token keyword">this</span><span class="token punctuation">.</span>dataChanged<span class="token punctuation">.</span><span class="token function">emit</span><span class="token punctuation">(</span>newValue<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Component cha có thể lắng nghe sự kiện từ component con trong template của mình:</p>
+<pre class="language-html" tabindex="0"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>app-con</span> <span class="token attr-name">(dataChanged)</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>dataChanged($event)<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>app-con</span><span class="token punctuation">></span></span></code></pre>
+<h2 id="su-dung-service">Sử dụng service</h2>
+<p>Thử tưởng tượng bạn có nhiều component lồng nhau nhiều cấp từ A, C, D, ... Z, thật khó để bạn truyền data hay emit event giữa component A và Z. Chúng không có mối quan hệ cha con trực tiếp. Lúc này bạn có thể sử dụng service.</p>
+<p>Ví dụ bạn có một button cart ở header, giỏ hàng cần tăng số lượng ngay lập tức mỗi khi bạn thêm/bớt sản phẩm bất kỳ</p>
+<p>Tạo một singleton service với 1 propery event là <em>cartChange</em> sử dụng BehaviorSubject.</p>
+<pre class="language-js" tabindex="0"><code class="language-js">@<span class="token function">Injectable</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    <span class="token literal-property property">providedIn</span><span class="token operator">:</span> <span class="token string">'root'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">CartHeaderService</span> <span class="token punctuation">{</span>
+
+    <span class="token literal-property property">cartChange</span><span class="token operator">:</span> BehaviorSubject<span class="token operator">&lt;</span>number<span class="token operator">></span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BehaviorSubject</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">CartHeaderComponent</span> <span class="token punctuation">{</span>
+
+    <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token parameter"><span class="token keyword">private</span> <span class="token literal-property property">cartHeaderService</span><span class="token operator">:</span> CartHeaderService</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+
+    <span class="token function">ngOnInit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>cartHeaderService<span class="token punctuation">.</span>cartChange<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter"><span class="token literal-property property">newValue</span><span class="token operator">:</span> number</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>newValue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Lúc này khi ProductComponent emit event update thêm/bớt sản phẩm:</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token keyword">this</span><span class="token punctuation">.</span>cartHeaderService<span class="token punctuation">.</span>cartChange<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span>newValue<span class="token punctuation">)</span></code></pre>
+<p>CartHeaderComponent sẽ subcribe và nhận được giá trị mới từ ProductComponent.</p>
+<p>Một lưu ý về việc sử dụng service để share dữ liệu giữa các component có thể tác động đến cơ chế change detection gây vấn đề về hiệu suất nếu bạn không kiểu soát tốt ứng dụng của mình, gây bug rất khó debug hoặc như lỗi ExpressionChangedAfterItHasBeenCheckedError.</p>
+<h2 id="ket-luan">Kết Luận</h2>
+<p>Có nhiều cách để các component giao tiếp với nhau trong angular:</p>
+<ul>
+<li>
+<p>Truyền data từ Cha đến Con dùng Input property</p>
+</li>
+<li>
+<p>Cha tương tác với Con dùng <em>template reference variable</em></p>
+</li>
+<li>
+<p>Cha tương tác với Con dùng ViewChild</p>
+</li>
+<li>
+<p>Emit event từ Con đến Cha dùng Output property</p>
+</li>
+<li>
+<p>Component có thể giao tiếp với nhau qua service</p>
+</li>
+</ul>
+
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/angular-lifecycle-va-change-detection/">Angular lifecycle và Change Detection</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/two-way-data-binding-trong-angular/">Two-way data binding trong Angular</a></li>
+</ul>
+
+			</heading-anchors>
+		</main>
+
+		<footer>
+			<p>© 2021 <a href="/">Thong Bui</a>. All rights reserved</p>
+		</footer>
+
+		<!-- This page `/blog/component-interaction-trong-angular/` was built on 2024-12-23T16:32:42.461Z -->
+		<script type="module" src="/dist/rJ3_G-2ArF.js"></script>
+	</body>
+</html>

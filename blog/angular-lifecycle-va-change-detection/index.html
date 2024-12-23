@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Angular lifecycle và Change Detection</title>
+		<meta name="description" content="Welcome to Thong Bui personal blog">
+		<link rel="alternate" href="feed/feed.xml" type="application/atom+xml" title="Thong Bui&#39;s Home">
+		
+		<style>/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 50em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img {
+  max-width: 100%;
+}
+img[width][height] {
+  height: auto;
+}
+img[src$=".svg"] {
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+.links-nextprev > * {
+	flex-grow: 1;
+}
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">Thong Bui&#39;s Home</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/about/">About</a></li>
+					<li class="nav-item"><a href="/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main>
+			<heading-anchors>
+				
+<h1 id="angular-lifecycle-va-change-detection">Angular lifecycle và Change Detection</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="18/05/2022">18/05/2022</time></li>
+	<li><a href="/tags/angular-lifecycle/" class="post-tag">angular-lifecycle</a>, </li>
+	<li><a href="/tags/change-detection/" class="post-tag">change-detection</a>, </li>
+	<li><a href="/tags/ngzone/" class="post-tag">ngzone</a></li>
+</ul>
+
+<p>Angular lifecycle và và cơ chế Change Detection - một trong những khái niệm cốt lõi của Angular. Nắm rõ vòng đời của Angular và và cơ chế Change Detection sẽ giúp chúng ta có cái nhìn tổng quan hơn về framework và dễ dàng xử lý lỗi phát sinh trong quá trình sử dụng.</p>
+<h2 id="angular-lifecycle">Angular lifecycle</h2>
+<p>Vòng đời của một component trãi qua các giai đoạn theo thứ tự sau:</p>
+<p>constructor<br>
+ngOnChanges<br>
+ngOnInit<br>
+ngDoCheck<br>
+ngAfterContentInit<br>
+ngAfterContentChecked<br>
+ngAfterViewInit<br>
+ngAfterViewChecked<br>
+ngOnDestroy</p>
+<p>Ngoại trừ constructor và hàm ngOnDestroy được gọi khi khởi tạo và destroy component, có 3 hàm được gọi 1 lần duy nhất là:</p>
+<ul>
+<li>
+<p>ngOnInit</p>
+</li>
+<li>
+<p>ngAfterContentInit</p>
+</li>
+<li>
+<p>ngAfterViewInit</p>
+</li>
+</ul>
+<p>Các hàm được gọi rất thường xuyên mỗi khi Angular chạy Change Detection, cần lưu ý để tránh ảnh hưởng tới performance của ứng dụng.</p>
+<ul>
+<li>
+<p>ngOnChanges</p>
+</li>
+<li>
+<p>ngDoCheck</p>
+</li>
+<li>
+<p>ngAfterContentChecked</p>
+</li>
+<li>
+<p>ngAfterViewChecked</p>
+</li>
+</ul>
+<h2 id="change-detection">Change Detection</h2>
+<p>Change Detection là cơ chế trong Angular để theo dõi sự thay đổi trong ứng dụng và tự động cập nhật UI, đảm bảo dữ liệu được hiển thị trên UI luôn đồng bộ với dữ liệu thực tế trong ứng dụng. Điểm đáng chú ý là kể từ angular2+, Angular tuân thủ luồng dữ liệu 1 chiều (Unidirectional Data Flow) hay one-way data binding. Đó là một bước thay đổi lớn của Angular so với AngularJS để cải thiện performance.</p>
+<h3 id="change-detection-hoat-dong-nhu-the-nao">Change Detection hoạt động như thế nào?</h3>
+<p>Mô tả đơn giản cách change detection trong angular hoạt động:</p>
+<ul>
+<li>
+<p>Model được cập nhật</p>
+</li>
+<li>
+<p>Angular khích hoạt change detection</p>
+</li>
+<li>
+<p>Angular kiểm tra mỗi component trong component tree trừ trên xuống dưới (Unidirectional Data Flow)</p>
+</li>
+<li>
+<p>Nếu có value mới thì update DOM</p>
+</li>
+<li>
+<p>gọi ngAfterViewInit lifecycle hook cho tất cả các component</p>
+</li>
+</ul>
+<p>Tuy nhiên, có những tác vụ bất đồng bộ như HTTP request, setTimeout(), setInterval(), Promise.then(),...Vậy làm cách nào Angular biết được data thay đổi để đồng bộ với view? Đó là nhờ thư viện Zone.js và wrapper của nó là ngZone.</p>
+<h3 id="ngzone">ngZone</h3>
+<p>Angular sử dụng thư viện zone.js để quan sát các sự kiện bất đồng bộ. Wrapper ngZone tạo một zone có tên là 'angular' để tự động kích hoạt Change Detection khi phát hiện các sự kiện đồng bộ hoặc bất đồng bộ được thực thi.</p>
+<p>Có thể thấy Zone.js rất quan trọng, nếu thiếu zone.js, Angular sẽ không phát hiện các thay đổi từ các sự kiện bất đồng bộ như HTTP request, setTimeout(),…dẫn đên view sẽ không được cập nhật.</p>
+<p>Vậy nếu không sử dụng ngZone thì angular có phát hiện được thay đổi không? Câu trả lời là có nhưng chúng ta phải notify cho angular để kích hoạt Change Detection thủ công, dùng hàm ApplicationRef.tick() hoặc ChangeDetectorRef.detectChanges().</p>
+<h3 id="change-detection-strategy">Change Detection strategy</h3>
+<p>Có 2 chiến lược phát hiện thay đổi:</p>
+<ul>
+<li>
+<p><strong>Default</strong>: CheckAlways, change detection sẽ tự động check mọi component từ trên xuống dưới. Chiến lược này còn được gọi là <strong>dirty checking</strong>. Nó có thể ảnh hưởng lớn đến performance nếu ứng dụng của bạn lớn bao gồm nhiều component.</p>
+</li>
+<li>
+<p><strong>OnPush</strong>: checkOnce, change detection chỉ chạy khi component khởi tạo. Sau đó có các trường hợp được trigger Change Detection:</p>
+<ul>
+<li>
+<p>Giá trị Input thay đổi hoặc reference thay đổi</p>
+</li>
+<li>
+<p>Event của template như onClick, onMousemove… được kích hoạt</p>
+</li>
+<li>
+<p>trigger change detection thủ công</p>
+</li>
+<li>
+<p>async pipe emit value mới</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Chiến lược OnPush được khuyên dùng để tăng performance của ứng dụng. Tuy nhiên cần chú ý chủ động việc trigger detect change lên view khi dùng chiến lược OnPush.</p>
+<h3 id="loi-expressionchangedafterithasbeencheckederror">Lỗi ExpressionChangedAfterItHasBeenCheckedError</h3>
+<p>ExpressionChangedAfterItHasBeenCheckedError xảy ra khi angular phát hiện expression value thay đổi sau khi quá trình change detection hoàn thành. Lỗi này chỉ xảy ra ở development mode do ở dev mode angular run check bổ sung sau khi hoàn thành detect change để đảm bảo value nhất quán với view.</p>
+<p>Lỗi này chỉ xảy ra ở development mode có thể angular muốn cảnh báo cho bạn rằng: đây không hẳn là một lỗi, nhưng bạn đang vi phạm quy tắc Unidirectional Data Flow, model và view của bạn có thể không nhất quán hoặc sai, hãy kiểm tra lại.</p>
+<p>Angular tuân thủ luồng dữ liệu 1 chiều Unidirectional Data Flow. Có nghĩa rằng component con không được phép cập nhật các thuộc tính của component cha sau khi change detection hoàn thành. Tuy nhiên, developer vẫn có cách cập nhật dữ liệu của component cha như sử dụng dữ liệu input two-way binding, share service, .... Chúng ta hầu hết đều đã từng sử dụng những thứ này trong dự án và sử dụng không đúng cách, dẫn đến data hiển thị sai hoặc bug rất khó fix.</p>
+<p>Có một số cách &quot;chữa cháy&quot; lỗi này tuy nhiên thường không được khuyến khích sử dụng:</p>
+<ul>
+<li>
+<p>Asynchronous update: dùng hàm setTimeout()</p>
+</li>
+<li>
+<p>Manual Trigger change detection: dùng hàm <em>detectChanges</em>()</p>
+</li>
+</ul>
+<p>Quay lại với câu hỏi ở trên, tại sao không chạy change detection tiếp cho tới khi nào update view xong thì thôi mà lại báo lỗi? Câu trả lời là đến khi nào mới xong, chúng ta đang tạo ra một infinity loop vô tận: child-parent-child.</p>
+<p>Tóm lại, cách tốt nhất để tránh lỗi này là chúng ta cần nắm rõ lifecycle hooks trong angular, hàm nào gọi trước DOM, hàm nào gọi sau DOM, hàm nào gọi 1 lần, hàm nào gọi nhiều lần. Ưu tiên sử dụng chiến lược OnPush. Luôn tuân theo quy tắc luồng dữ liệu 1 chiều Unidirectional Data Flow.</p>
+<h2 id="tong-ket">Tổng kết</h2>
+<ul>
+<li>
+<p>Có 8 hàm life cycle hooks trong suốt vòng đời của một component</p>
+</li>
+<li>
+<p>Change Detection hoạt động dựa trên thư viện zone.js và wrapper ngZone</p>
+</li>
+<li>
+<p>Có hai chiến lược của Change Detection, trong đó OnPush được khuyên dùng</p>
+</li>
+<li>
+<p>Tuân thủ quy tắc 1 chiều để tránh lỗi ExpressionChangedAfterItHasBeenCheckedError</p>
+</li>
+</ul>
+
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/prototype-va-thua-ke-trong-javascript/">Prototype và thừa kế trong Javascript</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/component-interaction-trong-angular/">Component interaction trong angular</a></li>
+</ul>
+
+			</heading-anchors>
+		</main>
+
+		<footer>
+			<p>© 2021 <a href="/">Thong Bui</a>. All rights reserved</p>
+		</footer>
+
+		<!-- This page `/blog/angular-lifecycle-va-change-detection/` was built on 2024-12-23T16:32:42.461Z -->
+		<script type="module" src="/dist/rJ3_G-2ArF.js"></script>
+	</body>
+</html>

@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Phân biệt let, const, var</title>
+		<meta name="description" content="Welcome to Thong Bui personal blog">
+		<link rel="alternate" href="feed/feed.xml" type="application/atom+xml" title="Thong Bui&#39;s Home">
+		
+		<style>/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 50em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img {
+  max-width: 100%;
+}
+img[width][height] {
+  height: auto;
+}
+img[src$=".svg"] {
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+.links-nextprev > * {
+	flex-grow: 1;
+}
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">Thong Bui&#39;s Home</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/about/">About</a></li>
+					<li class="nav-item"><a href="/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main>
+			<heading-anchors>
+				
+<h1 id="phan-biet-let-const-var">Phân biệt let, const, var</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="28/03/2020">28/03/2020</time></li>
+	<li><a href="/tags/es6/" class="post-tag">es6</a></li>
+</ul>
+
+<p>Trước đây chúng ta thường sử dụng var để khai báo biến. Nhưng từ khi ES6 ra đời, ta có thêm 2 lựa chọn là const và let. Vậy const và let có gì hay ho so với var, cùng tìm hiểu trong bài viết dưới đây nhé.</p>
+<h2 id="var">var</h2>
+<h3 id="var-la-global-function-scope">var là global/function scope</h3>
+<p>Từ khóa var tạo ra một biến có phạm vi truy cập xuyên suốt function chứa nó.</p>
+<p>var có <a href="/scope-trong-javascript">scope</a> toàn cục (global) khi được định nghĩa bên ngoài hàm.</p>
+<p>var là function scope nếu được định nghĩa bên trong hàm</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token keyword">var</span> name <span class="token operator">=</span> <span class="token string">"Javascript"</span><span class="token punctuation">;</span>
+<span class="token keyword">function</span> <span class="token function">myFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> hello <span class="token operator">=</span> <span class="token string">"Hello"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span> <span class="token comment">// Javascript</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>hello<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Uncaught ReferenceError: hello is not defined</span></code></pre>
+<h3 id="var-bi-hoisting">var bị hoisting</h3>
+<p>Hoisting là cơ chế trong đó các khai báo biến và hàm sẽ được hoisted lên đầu phạm vi (scope) của chúng trước khi được thực thi.</p>
+<p>Cùng xem một ví dụ đơn giản sau:</p>
+<pre class="language-js" tabindex="0"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>hello<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// undefined</span>
+<span class="token keyword">var</span> hello <span class="token operator">=</span> <span class="token string">'Hello'</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Thứ tự hoisting được giải thích như sau</span>
+<span class="token keyword">var</span> hello<span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>hello<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//undefined do biến hello được hoisted lên đầu scope và được thực thi trước khi gán giá trị</span>
+hello <span class="token operator">=</span> <span class="token string">'Hello'</span><span class="token punctuation">;</span></code></pre>
+<h3 id="var-co-the-dinh-nghia-trung-lap">var có thể định nghĩa trùng lặp</h3>
+<p>Trong cùng một scope, ta có thể khai báo các biến trùng tên mà không bị lỗi.</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token keyword">var</span> hello <span class="token operator">=</span> <span class="token string">'Hello'</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> hello <span class="token operator">=</span> <span class="token string">'say hi !'</span><span class="token punctuation">;</span>
+<span class="token comment">// Hoặc</span>
+<span class="token keyword">var</span> hello <span class="token operator">=</span> <span class="token string">'Hello'</span><span class="token punctuation">;</span>
+hello <span class="token operator">=</span> <span class="token string">'say hi !'</span><span class="token punctuation">;</span></code></pre>
+<h3 id="van-de-cua-var">Vấn đề của var</h3>
+<p>Cho đoạn code dưới đây</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token parameter">condition</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> name <span class="token operator">=</span> <span class="token string">'Javascript'</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>condition <span class="token operator">></span> <span class="token number">10</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">var</span> name <span class="token operator">=</span> <span class="token string">'Java'</span><span class="token punctuation">;</span> <span class="token comment">// name ở đây cũng là name bên ngoài vòng if.</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Java</span>
+    <span class="token punctuation">}</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Java</span>
+<span class="token punctuation">}</span>
+<span class="token function">foo</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Mặc dù ý đồ của chúng ta không muốn thay đổi biến name nhưng thật chất biến name đã được định nghĩa và được gán giá trị mới. Cho nên kết quả có thể không đúng như những gì ta mong đợi. Đó là lý do có sự xuất hiện của của const và let.</p>
+<h2 id="let">let</h2>
+<h3 id="let-la-block-scope">let là block scope</h3>
+<p>Từ khóa let tạo ra một biến chỉ có thể truy cập được trong block bao quanh nó. Một block được giới hạn bởi dấu {}.</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token parameter">condition</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>condition <span class="token operator">></span> <span class="token number">10</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> name <span class="token operator">=</span> <span class="token string">'Javascript'</span><span class="token punctuation">;</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Javascript</span>
+    <span class="token punctuation">}</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Uncaught ReferenceError: name is not defined</span>
+<span class="token punctuation">}</span>
+<span class="token function">foo</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Ta thấy rằng không thể sử dụng biến name bên ngoài block scope.</p>
+<h3 id="let-bi-hoisting-nhung-khong-duoc-khoi-tao">let bị hoisting, nhưng không được khởi tạo</h3>
+<p>Giống như var, let cũng bị hoisting, tuy nhiên var khởi tạo biến có giá trị undefined thì let không khởi tạo giá trị. Vì vậy nếu sử dụng biến let trước khi khởi tạo sẽ bị lỗi.</p>
+<pre class="language-js" tabindex="0"><code class="language-js">hello <span class="token operator">=</span> <span class="token string">'Hello'</span><span class="token punctuation">;</span><span class="token keyword">let</span> hello <span class="token operator">=</span> <span class="token string">'say hi !'</span><span class="token punctuation">;</span> <span class="token comment">// Uncaught ReferenceError: Cannot access 'hello' before initialization</span></code></pre>
+<h3 id="let-co-the-dinh-nghia-trung-lap-nhung-phai-khac-scope">let có thể định nghĩa trùng lặp, nhưng phải khác scope</h3>
+<p>Biến let có lẽ nghiêm ngặt hơn nhiều so với var. Nếu định nghĩa trùng lặp cùng scope sẽ bị lỗi.</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token keyword">let</span> hello <span class="token operator">=</span> <span class="token string">'Hello'</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> hello <span class="token operator">=</span> <span class="token string">'say hi !'</span><span class="token punctuation">;</span> <span class="token comment">// Uncaught SyntaxError: Identifier 'hello' has already been declared</span></code></pre>
+<p>Trong trường hợp khác scope. Lấy ví dụ bên trên để thấy được ưu điểm của từ khóa let hơn var</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token parameter">condition</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> name <span class="token operator">=</span> <span class="token string">'Javascript'</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>condition <span class="token operator">></span> <span class="token number">10</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> name <span class="token operator">=</span> <span class="token string">'Java'</span><span class="token punctuation">;</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Java</span>
+    <span class="token punctuation">}</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Javascript</span>
+<span class="token punctuation">}</span>
+<span class="token function">foo</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Ta thấy let được định nghĩa trùng lặp nhưng nằm ở 2 scope khác nhau nên hai biến này được coi là 2 biến khác nhau.</p>
+<p>Có thể nói rằng, có 2 điều khiến let tuyệt vời hơn var:</p>
+<ul>
+<li>
+<p>Biến let chỉ tồn tại trong scope của nó là một block</p>
+</li>
+<li>
+<p>Không thể định nghĩa biến trùng lặp trong cùng scope</p>
+</li>
+</ul>
+<h2 id="const">const</h2>
+<h3 id="const-la-block-scope">const là block scope</h3>
+<p>Từ khóa const dùng để khai báo một hằng số là một giá trị không thay đổi được trong suốt quá trình chạy. Tương tự như let, biến const chỉ có thể truy cập được trong block bao quanh nó. Một block được giới hạn bởi dấu {}.</p>
+<h3 id="const-bi-hoisting-nhung-khong-duoc-khoi-tao">const bị hoisting, nhưng không được khởi tạo</h3>
+<p>Giống như let, const cũng bị hoisting nhưng không khởi tạo giá trị. Vì vậy nếu sử dụng biến const trước khi khởi tạo sẽ bị lỗi.</p>
+<h3 id="const-khong-the-gan-gia-tri-moi-va-khong-the-dinh-nghia-trung-lap">const không thể gán giá trị mới và không thể định nghĩa trùng lặp</h3>
+<p>Không giống như let, bản thân const đã có ý nghĩa dùng để khai báo một hằng số là một giá trị không thay đổi (constant). Vì vậy biến const không thể được cập nhật giá trị mới (đối với các giá trị nguyên thủy primitive)</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token keyword">const</span> hello <span class="token operator">=</span> <span class="token string">'Hello'</span><span class="token punctuation">;</span>
+hello <span class="token operator">=</span> <span class="token string">'say hi !'</span><span class="token punctuation">;</span> <span class="token comment">// Uncaught TypeError: Assignment to constant variable.</span></code></pre>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token keyword">const</span> hello <span class="token operator">=</span> <span class="token string">'Hello'</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> hello <span class="token operator">=</span> <span class="token string">'say hi !'</span><span class="token punctuation">;</span> <span class="token comment">// Uncaught SyntaxError: Identifier 'hello' has already been declared.</span></code></pre>
+<p>Tuy nhiên đối, nếu định nghĩa biến const kiểu reference như object, array… Mặc dù không thể tái cập nhật giá trị mới cho biến nhưng ta vẫn có thể cập nhật giá trị cho thuộc tính của nó.</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token keyword">const</span> color <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">red</span><span class="token operator">:</span> <span class="token string">'Red'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">yellow</span><span class="token operator">:</span> <span class="token string">'Yellow'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">green</span><span class="token operator">:</span> <span class="token string">'Green'</span>
+<span class="token punctuation">}</span>
+color<span class="token punctuation">.</span>red <span class="token operator">=</span> <span class="token string">'Black'</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>color<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// {red: "Black", yellow: "Yellow", green: "Green"}</span></code></pre>
+<p>Nếu muốn ngăn chặn việc object, array có thể bị sửa đổi, ta có thể sử dụng hàm Object.freeze như sau:</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token keyword">const</span> color <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">freeze</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    <span class="token literal-property property">red</span><span class="token operator">:</span> <span class="token string">'Red'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">yellow</span><span class="token operator">:</span> <span class="token string">'Yellow'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">green</span><span class="token operator">:</span> <span class="token string">'Green'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+color<span class="token punctuation">.</span>red <span class="token operator">=</span> <span class="token string">'Black'</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>color<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// {red: "Red", yellow: "Yellow", green: "Green"}</span></code></pre>
+<h2 id="tong-ket">Tổng Kết</h2>
+<ul>
+<li>
+<p>Nên dùng let thay vì var để tạo biến.</p>
+</li>
+<li>
+<p>Nếu biến cần phải cập nhật giá trị mới thì thì dùng let.</p>
+</li>
+<li>
+<p>Sử dụng const cho hằng số không đổi</p>
+</li>
+</ul>
+
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/hoisting-trong-javascript/">Hoisting trong Javascript</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/scope-trong-javascript/">Scope trong Javascript</a></li>
+</ul>
+
+			</heading-anchors>
+		</main>
+
+		<footer>
+			<p>© 2021 <a href="/">Thong Bui</a>. All rights reserved</p>
+		</footer>
+
+		<!-- This page `/blog/phan-biet-let-const-var/` was built on 2024-12-23T16:32:42.461Z -->
+		<script type="module" src="/dist/rJ3_G-2ArF.js"></script>
+	</body>
+</html>

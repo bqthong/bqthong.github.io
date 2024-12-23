@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Vấn đề timezone trong dự án</title>
+		<meta name="description" content="Welcome to Thong Bui personal blog">
+		<link rel="alternate" href="feed/feed.xml" type="application/atom+xml" title="Thong Bui&#39;s Home">
+		
+		<style>/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 50em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img {
+  max-width: 100%;
+}
+img[width][height] {
+  height: auto;
+}
+img[src$=".svg"] {
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+.links-nextprev > * {
+	flex-grow: 1;
+}
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">Thong Bui&#39;s Home</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/about/">About</a></li>
+					<li class="nav-item"><a href="/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main>
+			<heading-anchors>
+				
+<h1 id="van-de-timezone-trong-du-an">Vấn đề timezone trong dự án</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="05/07/2023">05/07/2023</time></li>
+	<li><a href="/tags/timzone/" class="post-tag">timzone</a></li>
+</ul>
+
+<p>Làm việc trong dự án cần hỗ trợ nhiều timezone thì việc xử lý date time theo múi giờ của client là điều bắt buộc. Một document được tạo ở Anh lúc 15h, thì ông nhân viên ở Los Angeles phải thấy tài liệu đó được tạo lúc 7h sáng, ông nhân viên khác ở Việt Nam phải thấy tại liệu đó được tạo lúc 22h.</p>
+<h2 id="luon-su-dung-date-time-utc">Luôn sử dụng date time UTC</h2>
+<p>Trường hợp dự án của bạn không có yêu cầu cấu hình timezone, chỉ cần hiển thị theo đúng với timezone của client thì bạn chỉ cần làm như sau:</p>
+<p>Chuyển đổi thành giờ UTC trước khi gởi request xuống BE:</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token comment">// Sử dụng hàm toISOString()</span>
+request<span class="token punctuation">.</span>dueDate <span class="token operator">=</span> dueDate<span class="token punctuation">.</span><span class="token function">toISOString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Khi nhận data từ BE cần convert ngược lại thành giờ client:</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token comment">// Sử dụng Date object</span>
+<span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span>utcDateFromBE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Trong Angular sử dụng DatePipe để format</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> DatePipe <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/common'</span><span class="token punctuation">;</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>datePipe<span class="token punctuation">.</span><span class="token function">transform</span><span class="token punctuation">(</span>utcDateFromBE<span class="token punctuation">,</span> <span class="token string">'dd-MMM-yyyy'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h2 id="van-de-filter-du-lieu-voi-timezone">Vấn đề filter dữ liệu với timezone</h2>
+<p>Nếu dự án yêu cầu filter trên client, client chọn từ date picker có 2 trường hợp xảy ra:</p>
+<p><strong>Bộ lọc cho phép chọn date và time:</strong> trường hợp này bạn giữ nguyên date và time đã chọn và chỉ cần convert thành UTC.</p>
+<p><strong>Bộ lọc chỉ chọn date:</strong> trường hợp này bạn cần reset ngày đã chọn về mid-night (00:00) trước khi convert thành UTC để tránh dữ liệu trả về không chính xác.</p>
+<p>Ví dụ: user A ở Việt Nam cần lọc dữ liệu ngày 5/7/2023</p>
+<p>User A chọn ngày 5/7/2023 từ datepicker (chỉ có date không có time):</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token string">'2023-07-05'</span><span class="token punctuation">)</span>
+<span class="token comment">//Wed Jul 05 2023 07:00:00 GMT+0700 (Indochina Time)</span>
+
+<span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token string">'2023-07-05'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toISOString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//2023-07-05T00:00:00.000Z</span></code></pre>
+<p>Có thể thấy user A gởi request từ 7h sáng nên dữ liệu trả về client sẽ bao gồm data từ 7h ngày 5-7 đến 7h ngày 6-7. Dữ liệu này là không chính xác, vừa thiếu vừa thừa.</p>
+<p>Nguyên nhân do khi bạn khởi tạo new Date mà không chỉ định time và timezone, Javascript tự động chuyển về local timezone. cho nên trong trường hợp này bạn cần phải reset về 00:00 trước khi convert về UTC. Để đặt date time về 0, bạn có thể làm như sau:</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token string">'2023-07-05 00:00:00.000'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//Wed Jul 05 2023 00:00:00 GMT+0700 (Indochina Time)</span>
+
+<span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token string">'2023-07-05 00:00:00.000'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toISOString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//2023-07-04T17:00:00.000Z</span></code></pre>
+<p>Một vấn đề bộ lọc với nhiều timezone là client có thể thấy dữ liệu khác nhau tùy theo múi giờ của client . Để tránh nhầm lẫn, chỉ có thể cung cấp thông tin cho client về dữ liệu khác nhau giữa các timezone đối với bộ lọc. Nếu họ không đồng ý, chúng ta cần một cách tiếp cận khác. Chẳng hạn sẽ hiển thị dữ liệu dưới dạng UTC thay vì timezone của client. Tuy nhiên cách tiếp cận này cũng có nhiều vấn đề cần xác nhận với client.</p>
+<h2 id="van-de-cau-hinh-timezone">Vấn đề cấu hình timezone</h2>
+<p>Nếu dự án cần thay đổi múi giờ mà người dùng chỉ định, vấn đề sẽ phức tạp hơn một chút, ý tưởng như sau:</p>
+<ul>
+<li>
+<p>Lưu timezone mà người dùng chỉ định trong DB.</p>
+</li>
+<li>
+<p>Date time trong DB luôn là UTC, lúc hiển thị ra màn hình thì convert theo timezone người dùng đã chỉ định</p>
+</li>
+</ul>
+<p>Tuy nhiên việc chuyển đổi múi giờ sẽ có nhiều vấn đề phát sinh, trong trường hợp này khi khởi tạo new Date bạn phải chỉ định timezone. Bạn có thể dùng Javascipt Date hoặc nếu cần nhiều tính năng hơn cho xử lý date time, hãy sử dụng thư viện như momentjs hoặc date-fns (date-fns được khuyên dùng).</p>
+<h2 id="tong-ket">Tổng kết</h2>
+<p>Tóm lại, khi làm việc với timezone:</p>
+<ul>
+<li>
+<p>Luôn sử dụng date time UTC.</p>
+</li>
+<li>
+<p>Khi khởi tạo new Date, Javascript tự động chuyển về local timezone nếu không chỉ định time và timezone.</p>
+</li>
+</ul>
+<p>Xem thêm: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date">Date</a></p>
+
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/ng-container-ng-content-ng-template-va-ngtemplateoutlet-trong-angular/">Phân biệt ng-container, ng-content, ng-template và ngTemplateOutlet trong Angular</a></li>
+</ul>
+
+			</heading-anchors>
+		</main>
+
+		<footer>
+			<p>© 2021 <a href="/">Thong Bui</a>. All rights reserved</p>
+		</footer>
+
+		<!-- This page `/blog/van-de-timezone-trong-du-an/` was built on 2024-12-23T16:32:42.462Z -->
+		<script type="module" src="/dist/rJ3_G-2ArF.js"></script>
+	</body>
+</html>

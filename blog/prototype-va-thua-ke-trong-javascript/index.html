@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Prototype và thừa kế trong Javascript</title>
+		<meta name="description" content="Welcome to Thong Bui personal blog">
+		<link rel="alternate" href="feed/feed.xml" type="application/atom+xml" title="Thong Bui&#39;s Home">
+		
+		<style>/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 50em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img {
+  max-width: 100%;
+}
+img[width][height] {
+  height: auto;
+}
+img[src$=".svg"] {
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+.links-nextprev > * {
+	flex-grow: 1;
+}
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">Thong Bui&#39;s Home</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/about/">About</a></li>
+					<li class="nav-item"><a href="/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main>
+			<heading-anchors>
+				
+<h1 id="prototype-va-thua-ke-trong-javascript">Prototype và thừa kế trong Javascript</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="29/04/2020">29/04/2020</time></li>
+	<li><a href="/tags/es6/" class="post-tag">es6</a>, </li>
+	<li><a href="/tags/prototype/" class="post-tag">prototype</a></li>
+</ul>
+
+<p>Javascript có phải là ngôn ngữ lập trình hướng đối tượng? Prototype là gì? Làm sao để thừa kế trong Javascript, cùng tìm hiểu trong bài viết nhé.</p>
+<h2 id="prototype-la-gi">Prototype là gì ?</h2>
+<p>Trước hết, JavaScript không phải là một ngôn ngữ lập trình hướng đối tượng (OOP) thuần túy như Java hoặc C++. JavaScript sử dụng object và prototype để triển khai lập trình hướng đối tượng. Vậy prototype là gì?</p>
+<blockquote>
+<p>Prototypes are the mechanism by which JavaScript objects inherit features from one another.</p>
+<p>MDN</p>
+</blockquote>
+<p>Prototype là cơ chế mà các đối tượng (object) kế thừa các tính năng của nhau. Ví dụ:</p>
+<ul>
+<li>
+<p>String objects thừa kế từ String .prototype</p>
+</li>
+<li>
+<p>Array objects thừa kế từ Array.prototype</p>
+</li>
+<li>
+<p>Date objects thừa kế từ Date.prototype</p>
+</li>
+<li>
+<p>Person objects thừa kế từ Person.prototype</p>
+</li>
+</ul>
+<p>Object.prototype nằm ở đầu chuỗi kế thừa prototype. Có nghĩa là: String objects, Date objects, ... đều thừa kế từ Object.prototype</p>
+<h2 id="prototype-chain">Prototype Chain</h2>
+<p>Trong JavaScript, việc thừa kế được hiện thực thông qua prototype.</p>
+<p>Cơ chế của Prototype: khi ta truy xuất thuộc tính hoặc hàm của một object, đầu tiên JavaScript sẽ tìm trong chính object đó, nếu không có nó sẽ tìm trong chuỗi [[Prototype]], đầu tiên là tìm lên prototype là cha của nó, cứ tiếp tục như thế cho đến khi nào nó gặp Object.prototype.</p>
+<p>Đó là lý do ta có thể gọi các hàm slice, toUpperCase, trong String.prototype, forEach trong Array.prototype,….</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token keyword">var</span> name <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'javascript'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+name<span class="token punctuation">.</span><span class="token function">toUpperCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// JAVASCRIPT</span></code></pre>
+<p>Cơ chế hoạt động của prorotype chain có thể được mô tả như sau:</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token comment">// Tạo obj có 2 giá trị a và b</span>
+<span class="token keyword">var</span> <span class="token function-variable function">fn</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>b <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">var</span> o <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// {a: 1, b: 2}</span>
+
+<span class="token comment">// thêm 2 property vào prototype obj</span>
+fn<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>b <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+fn<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>c <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Kiểm tra biến a trong object -> có tồn tại</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>o<span class="token punctuation">.</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 1</span>
+<span class="token comment">// Kiểm tra biến b trong object -> có tồn tại</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>o<span class="token punctuation">.</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 2</span>
+<span class="token comment">// Kiểm tra biến c trong object -> không tồn tại,</span>
+<span class="token comment">// Tiếp tục kiểm tra prototype của nó -> có tồn tại</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>o<span class="token punctuation">.</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 4</span>
+<span class="token comment">// Kiểm tra biến d trong object -> không tồn tại,</span>
+<span class="token comment">// Tiếp tục kiểm tra prototype của nó -> không tồn tại</span>
+<span class="token comment">// Tiếp tục kiểm tra prototype của nó, lúc này gặp Object.prototype -> không tồn tại, dừng tìm kiếm và ra kết quả</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>o<span class="token punctuation">.</span>d<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// undefined</span></code></pre>
+<h2 id="thua-ke-trong-javascript">Thừa kế trong Javascript</h2>
+<p>Như đã biết, Javascript (ES5) không có khái niệm class. Kể từ ES6 trở đi, javascript đã hỗ trợ mạnh mẽ hơn cho việc triển khai OOP như lớp class, constructor, extends, super ,.. Tuy nhiên về bản chất vẫn dựa trên thiết kế prototype.</p>
+<p>Giả sử ta có một đối tượng Person có 3 thuộc tính và 1 phương thức sayHello trong prototype:</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token comment">// Định nghĩa Constructor function</span>
+<span class="token keyword">function</span> <span class="token function">Person</span><span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span> age<span class="token punctuation">,</span> gender</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>age <span class="token operator">=</span> age<span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>gender <span class="token operator">=</span> gender<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">//  Person.prototype được khởi tạo</span>
+<span class="token comment">// Ta có thể định nghĩa thêm phương thức sayHello trong Person.prototype</span>
+<span class="token class-name">Person</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function-variable function">sayHello</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Hi, my name is '</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">+</span> <span class="token string">', '</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>age <span class="token operator">+</span> <span class="token string">', gender '</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>gender<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<p>Bây giờ chúng ta muốn tạo một đối tượng Employee và ta muốn nó thừa kế các thuộc tính và phương thức của Person.</p>
+<ul>
+<li>
+<p>Thừa kế thuộc tính: Sử dụng hàm call() trong javascript để thay đổi ngữ cảnh của <a href="/tu-khoa-this-trong-javascript">con trỏ this</a>.</p>
+</li>
+<li>
+<p>Thừa kế phương thức: Sử dụng Object.create() hoặc từ khóa new để thay đổi tham chiếu prototype.</p>
+</li>
+</ul>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token comment">// Định nghĩa Constructor function</span>
+<span class="token keyword">function</span> <span class="token function">Employee</span><span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span> age<span class="token punctuation">,</span> gender<span class="token punctuation">,</span> exp</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">Person</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> name<span class="token punctuation">,</span> age<span class="token punctuation">,</span> gender<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">// Dùng hàm call để đổi context, this lúc này sẽ tham chiếu tới Person.</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>exp <span class="token operator">=</span> exp<span class="token punctuation">;</span> <span class="token comment">// Đinh nghĩa thuộc tính tiêng cho Employee</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// Thay đối tham chiếu prototype thừa kế phương thức của Person</span>
+<span class="token class-name">Employee</span><span class="token punctuation">.</span>prototype <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token class-name">Person</span><span class="token punctuation">.</span>prototype<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Hoặc viết Employee.prototype = new Person();</span>
+<span class="token keyword">var</span> employee <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Employee</span><span class="token punctuation">(</span><span class="token string">'Thong'</span><span class="token punctuation">,</span> <span class="token number">19</span><span class="token punctuation">,</span> <span class="token string">'Male'</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>employee<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Ta thấy đối tượng employee đã thừa kế đầy đủ các thuộc tính và phương thức của của Person.</p>
+<h2 id="tong-ket">Tổng Kết</h2>
+<ul>
+<li>
+<p>Prototype là cơ chế mà các đối tượng (object) kế thừa các tính năng của nhau.</p>
+</li>
+<li>
+<p>Trong JavaScript, việc thừa kế được hiện thực thông qua prototype.</p>
+</li>
+<li>
+<p>Thừa kế thuộc tính: Sử dụng hàm call()</p>
+</li>
+<li>
+<p>Thừa kế phương thức: Sử dụng Object.create() hoặc từ khóa new</p>
+</li>
+</ul>
+
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/tu-khoa-this-trong-javascript/">Từ khóa this trong Javascript</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/angular-lifecycle-va-change-detection/">Angular lifecycle và Change Detection</a></li>
+</ul>
+
+			</heading-anchors>
+		</main>
+
+		<footer>
+			<p>© 2021 <a href="/">Thong Bui</a>. All rights reserved</p>
+		</footer>
+
+		<!-- This page `/blog/prototype-va-thua-ke-trong-javascript/` was built on 2024-12-23T16:32:42.462Z -->
+		<script type="module" src="/dist/rJ3_G-2ArF.js"></script>
+	</body>
+</html>

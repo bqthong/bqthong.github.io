@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Scope trong Javascript</title>
+		<meta name="description" content="Welcome to Thong Bui personal blog">
+		<link rel="alternate" href="feed/feed.xml" type="application/atom+xml" title="Thong Bui&#39;s Home">
+		
+		<style>/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 50em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img {
+  max-width: 100%;
+}
+img[width][height] {
+  height: auto;
+}
+img[src$=".svg"] {
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+.links-nextprev > * {
+	flex-grow: 1;
+}
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">Thong Bui&#39;s Home</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/about/">About</a></li>
+					<li class="nav-item"><a href="/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main>
+			<heading-anchors>
+				
+<h1 id="scope-trong-javascript">Scope trong Javascript</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="30/03/2020">30/03/2020</time></li>
+	<li><a href="/tags/closure/" class="post-tag">closure</a>, </li>
+	<li><a href="/tags/scope/" class="post-tag">scope</a></li>
+</ul>
+
+<p>Scope trong javascript là gì? Có các loại scope nào? Closure là gì? scope và từ khóa this. Hiểu rõ scope của các biến/hàm giúp cho code của bạn rõ ràng và ít bug hơn. Cùng tìm hiểu nhé.</p>
+<h2 id="scope-trong-javascript-la-gi">Scope trong Javascript là gì ?</h2>
+<p>Scope là phạm vi mà các biến/hàm có thể truy xuất được. Và khi ra khỏi scope thì các biến/hàm đó không thể truy xuất được nữa</p>
+<p>Khi trang ứng dụng chạy trên trình duyệt, mặc định trình duyệt sẽ tạo ra Global scope là window, và khi tạo các function thì sẽ các scope riêng nữa. Dưới đây mình sẽ liệt kê các loại scope trong javascript</p>
+<h2 id="cac-loai-scope-trong-javascript">Các loại scope trong Javascript</h2>
+<h3 id="global-scope">Global Scope</h3>
+<p>Khi trang web chạy, nó sẽ mặc định tạo ra một Global scope là window. Vì vậy, khi bắt đầu viết code thì chúng ta đã ở trong Global scope.</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token keyword">var</span> hello <span class="token operator">=</span> <span class="token string">'Hello world!'</span><span class="token punctuation">;</span> <span class="token comment">// Biến này là biến global</span>
+window<span class="token punctuation">.</span>hello
+<span class="token comment">// 'Hello world!</span></code></pre>
+<p>Biến ở Global scope khá tiện dụng, nhưng nếu kiểm soát không tốt thì nó sẽ trở nên tồi tệ hơn. Hãy xem một ví dụ:</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">calculator</span><span class="token punctuation">(</span><span class="token parameter">value</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    a <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+    <span class="token keyword">var</span> square <span class="token operator">=</span> a <span class="token operator">*</span> value<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> square<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">calculator</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 20</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 2</span></code></pre>
+<p>Giá trị biến a toàn cục đã bị thay đổi bên trong hàm calculator. Điều này rất nguy hiểm do chúng ta sử dụng từ khóa var. Tuy nhiên, từ ES6 trở đi, vấn đề này đã được giải quyết nhờ sự ra đời của từ khóa <a href="/phan-biet-let-const-var">const và let</a>.</p>
+<h3 id="local-scope">Local Scope</h3>
+<p>Có một lưu ý quan trọng là tất cả các scope mới đều được tạo ra bởi function(Function scope). Vì vậy nếu định nghĩa các biến bên trong function thì các biến này sẽ trở thành local scope. Nó không thể truy cập từ scope bên ngoài.</p>
+<p>Ví dụ đơn giản:</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token keyword">var</span> name <span class="token operator">=</span> <span class="token string">'Thong'</span><span class="token punctuation">;</span> <span class="token comment">// Đây là Global scope</span>
+<span class="token keyword">function</span> <span class="token function">myFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> age <span class="token operator">=</span> <span class="token number">19</span><span class="token punctuation">;</span> <span class="token comment">// Đây là Local scope</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Có thể truy cập biến global ở local scope.</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>age<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Uncaught ReferenceError: age is not defined</span>
+<span class="token comment">// Không thể truy cập do biến age thuộc local scope.</span></code></pre>
+<p>Có thể thấy:</p>
+<ul>
+<li>
+<p>Có thể truy cập biến global ở local scope.</p>
+</li>
+<li>
+<p>Không thể truy cập do biến local scope ở global scope.</p>
+</li>
+</ul>
+<h3 id="lexical-scope-closure">Lexical Scope (Closure)</h3>
+<p>Lexical scope hay còn gọi là closure xảy ra khi một function được định nghĩa bên trong function khác. Nó có thể sử dụng biến toàn cục, biến cục bộ của hàm cha và biến cục bộ của chính nó</p>
+<p>Một số lưu ý về lexical scope:</p>
+<ul>
+<li>
+<p>Function bên trong có thể truy cập được biến của function bên ngoài</p>
+</li>
+<li>
+<p>Lexical scope không hoạt động ngược, function bên ngoài không thể truy cập biến của function bên trong.</p>
+</li>
+<li>
+<p>Thứ tự gọi hàm ảnh hưởng đến biến được gọi.</p>
+</li>
+</ul>
+<p>Ví dụ mô tả về lexical scope:</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token keyword">var</span> name <span class="token operator">=</span> <span class="token string">'Global'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">parentFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> parent <span class="token operator">=</span> <span class="token string">'Parent'</span><span class="token punctuation">;</span>
+    <span class="token comment">// Đinh nghĩa hàm bên trong một hàm</span>
+    <span class="token keyword">function</span> <span class="token function">childFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">var</span> child <span class="token operator">=</span> <span class="token string">'Child'</span><span class="token punctuation">;</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>parent<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Có thể truy cập biến outer scope</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//  Có thể truy cập global scope</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token function">childFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>child<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// Lỗi, không thể truy cập biến bên trong childFunction</span>
+ 
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token function">parentFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Parent</span>
+<span class="token comment">// Global</span>
+<span class="token comment">// Uncaught ReferenceError: child is not defined</span></code></pre>
+<h3 id="scope-va-tu-khoa-this">Scope và từ khóa this</h3>
+<p>Scope và từ khóa this là 2 khái niệm rất cơ bản và quan trọng cần nắm trong Javascript, chúng có quan hệ mật thiết với nhau. Nếu không hiểu rõ, bạn sẽ vô tình tạo bug mà không hề biết đấy. Có 3 vấn đề cần lưu ý:</p>
+<ul>
+<li>
+<p>Mặc định thì this sẽ thuộc global scope và sẽ trỏ đến object window.</p>
+</li>
+<li>
+<p>Mỗi scope sẽ hiểu với một biến this khác nhau.</p>
+</li>
+<li>
+<p>This có thể bị thay đổi nên this trỏ đến đối tượng nào tùy thuộc vào function được gọi ở ngữ cảnh nào.</p>
+</li>
+</ul>
+<h2 id="tong-ket">Tổng kết</h2>
+<ul>
+<li>
+<p>Các loại scope trong javascript: Global Scope, Local Scope và Lexical Scope (Closure)</p>
+</li>
+<li>
+<p>Cần nắm rõ scope và từ khóa this</p>
+</li>
+</ul>
+
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/phan-biet-let-const-var/">Phân biệt let, const, var</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/tu-khoa-this-trong-javascript/">Từ khóa this trong Javascript</a></li>
+</ul>
+
+			</heading-anchors>
+		</main>
+
+		<footer>
+			<p>© 2021 <a href="/">Thong Bui</a>. All rights reserved</p>
+		</footer>
+
+		<!-- This page `/blog/scope-trong-javascript/` was built on 2024-12-23T16:32:42.462Z -->
+		<script type="module" src="/dist/rJ3_G-2ArF.js"></script>
+	</body>
+</html>
