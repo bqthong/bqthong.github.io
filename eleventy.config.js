@@ -48,9 +48,9 @@ export default async function(eleventyConfig) {
 	eleventyConfig.addPlugin(InputPathToUrlTransformPlugin);
 
 	eleventyConfig.addPlugin(feedPlugin, {
-		type: "atom", // or "rss", "json"
+		type: "rss", // or "rss", "json"
 		outputPath: "/feed/feed.xml",
-		stylesheet: "pretty-atom-feed.xsl",
+		// stylesheet: "pretty-atom-feed.xsl",
 		templateData: {
 			eleventyNavigation: {
 				key: "Feed",
