@@ -3,15 +3,18 @@ const eleventyNavigation = {
 	key: "Home",
 	order: 1
 };
-const pagination = {
-	data: "collections.posts",
-	size: 8,
-	filter: ["all", "posts"],
-	reverse: true
-};
----
-<h1>Recent Posts</h1>
 
-{% set postslist = pagination.items %}
+const numberOfLatestPostsToShow = 10;
+---
+{% set postsCount = collections.posts | length %}
+{% set latestPostsCount = postsCount | min(numberOfLatestPostsToShow) %}
+<h1>Recent {{ latestPostsCount }} Post{% if latestPostsCount != 1 %}s{% endif %}</h1>
+
+{% set postslist = collections.posts | head(-1 * numberOfLatestPostsToShow) %}
+{% set postslistCounter = postsCount %}
 {% include "postslist.njk" %}
-{% include "pagination.njk" %}
+
+{% set morePosts = postsCount - numberOfLatestPostsToShow %}
+{% if morePosts > 0 %}
+<p>{{ morePosts }} more post{% if morePosts != 1 %}s{% endif %} can be found in <a href="blog.njk">the archive</a>.</p>
+{% endif %}
