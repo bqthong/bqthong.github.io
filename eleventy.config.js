@@ -107,6 +107,12 @@ export default async function(eleventyConfig) {
 		exec(`pagefind --site ${eleventyConfig.dir.output}`);
 	});
 
+	// excerpt
+	eleventyConfig.addFilter('excerpt', (post) => {
+    const content = post.replace(/(<([^>]+)>)/gi, '');
+    return content.substr(0, content.lastIndexOf(' ', 180)) + '...';
+  });
+
 	// Features to make your build faster (when you need them)
 
 	// If your passthrough copy gets heavy and cumbersome, add this line

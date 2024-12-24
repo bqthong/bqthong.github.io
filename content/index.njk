@@ -8,13 +8,13 @@ const numberOfLatestPostsToShow = 8;
 ---
 {% set postsCount = collections.posts | length %}
 {% set latestPostsCount = postsCount | min(numberOfLatestPostsToShow) %}
-<h1>Recent {{ latestPostsCount }} Post{% if latestPostsCount != 1 %}s{% endif %}</h1>
+<h1>Recent Posts</h1>
 
-{% set postslist = collections.posts | head(-1 * numberOfLatestPostsToShow) %}
+{% set postslist = collections.posts | head(-1 * numberOfLatestPostsToShow) | reverse %}
 {% set postslistCounter = postsCount %}
 {% include "postslist.njk" %}
 
 {% set morePosts = postsCount - numberOfLatestPostsToShow %}
 {% if morePosts > 0 %}
-<p>{{ morePosts }} more post{% if morePosts != 1 %}s{% endif %} can be found in <a href="blog.njk">the archive</a>.</p>
+<p><a href="blog.njk">View All Posts</a></p>
 {% endif %}
