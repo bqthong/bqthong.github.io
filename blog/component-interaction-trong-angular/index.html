@@ -439,12 +439,15 @@ header {
 .post-metadata time {
 	margin-right: 1em;
 }</style>
+
+		<link rel="stylesheet" href="/pagefind/pagefind-ui.css">
 	</head>
 	<body>
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 
 		<header>
 			<a href="/" class="home-link">Thong Bui&#39;s Home</a>
+			<div class="search" id="search" style="padding-top: 0.5rem;"></div>
 			<nav>
 				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
 				<ul class="nav">
@@ -468,7 +471,7 @@ header {
 	<li><a href="/tags/viewchild/" class="post-tag">viewchild</a></li>
 </ul>
 
-<p>Trong một ứng dụng, có nhiều component và chúng cần tương tác với nhau(component interaction). Trong bài viết này, chúng ta sẽ tìm hiểu cách để các component giao tiếp với nhau trong angular.</p>
+<div class="post-content" data-pagefind-body=""><p>Trong một ứng dụng, có nhiều component và chúng cần tương tác với nhau(component interaction). Trong bài viết này, chúng ta sẽ tìm hiểu cách để các component giao tiếp với nhau trong angular.</p>
 <h2 id="component-cha-va-component-con">Component Cha và component Con</h2>
 <p>Trong Angular, bạn có thể chia ứng dụng của mình thành nhiều component nhỏ. Các component có thể được lồng nhau, component chứa một component khác được gọi là component cha, component bên trong được gọi là component con.</p>
 <p>Vì vậy việc tương tác giữa các component cha và con là một phần quan trọng, làm sao để cha truyền dữ liệu cho con, làm sao để con emit sự kiện cho cha, hoặc làm sao để cha truy cập được các thuộc tính của con.</p>
@@ -569,7 +572,7 @@ header {
 <p>Component có thể giao tiếp với nhau qua service</p>
 </li>
 </ul>
-
+</div>
 <ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/angular-lifecycle-va-change-detection/">Angular lifecycle và Change Detection</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/two-way-data-binding-trong-angular/">Two-way data binding trong Angular</a></li>
 </ul>
 
@@ -580,7 +583,21 @@ header {
 			<p>© 2021 <a href="/">Thong Bui</a>. All rights reserved</p>
 		</footer>
 
-		<!-- This page `/blog/component-interaction-trong-angular/` was built on 2024-12-24T12:55:10.855Z -->
+		<!-- This page `/blog/component-interaction-trong-angular/` was built on 2024-12-24T14:48:48.034Z -->
 		<script type="module" src="/dist/rJ3_G-2ArF.js"></script>
+		<script src="/pagefind/pagefind-ui.js"></script>
+		<script>
+			window.addEventListener("DOMContentLoaded", (event) => {
+				new PagefindUI({
+					element: "#search",
+					showSubResults: false,
+					showImages: false,
+					debounceTimeoutMs: 100,
+					processTerm: function (term) {
+						return term.replace(/aa/g, 'ā');
+					}
+				});
+			});
+		</script>
 	</body>
 </html>

@@ -439,12 +439,15 @@ header {
 .post-metadata time {
 	margin-right: 1em;
 }</style>
+
+		<link rel="stylesheet" href="/pagefind/pagefind-ui.css">
 	</head>
 	<body>
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 
 		<header>
 			<a href="/" class="home-link">Thong Bui&#39;s Home</a>
+			<div class="search" id="search" style="padding-top: 0.5rem;"></div>
 			<nav>
 				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
 				<ul class="nav">
@@ -467,7 +470,7 @@ header {
 	<li><a href="/tags/scope/" class="post-tag">scope</a></li>
 </ul>
 
-<p>Scope trong javascript là gì? Có các loại scope nào? Closure là gì? scope và từ khóa this. Hiểu rõ scope của các biến/hàm giúp cho code của bạn rõ ràng và ít bug hơn. Cùng tìm hiểu nhé.</p>
+<div class="post-content" data-pagefind-body=""><p>Scope trong javascript là gì? Có các loại scope nào? Closure là gì? scope và từ khóa this. Hiểu rõ scope của các biến/hàm giúp cho code của bạn rõ ràng và ít bug hơn. Cùng tìm hiểu nhé.</p>
 <h2 id="scope-trong-javascript-la-gi">Scope trong Javascript là gì ?</h2>
 <p>Scope là phạm vi mà các biến/hàm có thể truy xuất được. Và khi ra khỏi scope thì các biến/hàm đó không thể truy xuất được nữa</p>
 <p>Khi trang ứng dụng chạy trên trình duyệt, mặc định trình duyệt sẽ tạo ra Global scope là window, và khi tạo các function thì sẽ các scope riêng nữa. Dưới đây mình sẽ liệt kê các loại scope trong javascript</p>
@@ -562,7 +565,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>Cần nắm rõ scope và từ khóa this</p>
 </li>
 </ul>
-
+</div>
 <ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/phan-biet-let-const-var/">Phân biệt let, const, var</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/tu-khoa-this-trong-javascript/">Từ khóa this trong Javascript</a></li>
 </ul>
 
@@ -573,7 +576,21 @@ console<span class="token punctuation">.</span><span class="token function">log<
 			<p>© 2021 <a href="/">Thong Bui</a>. All rights reserved</p>
 		</footer>
 
-		<!-- This page `/blog/scope-trong-javascript/` was built on 2024-12-24T12:55:10.856Z -->
+		<!-- This page `/blog/scope-trong-javascript/` was built on 2024-12-24T14:48:48.035Z -->
 		<script type="module" src="/dist/rJ3_G-2ArF.js"></script>
+		<script src="/pagefind/pagefind-ui.js"></script>
+		<script>
+			window.addEventListener("DOMContentLoaded", (event) => {
+				new PagefindUI({
+					element: "#search",
+					showSubResults: false,
+					showImages: false,
+					debounceTimeoutMs: 100,
+					processTerm: function (term) {
+						return term.replace(/aa/g, 'ā');
+					}
+				});
+			});
+		</script>
 	</body>
 </html>

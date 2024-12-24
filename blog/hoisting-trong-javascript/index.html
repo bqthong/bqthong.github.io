@@ -439,12 +439,15 @@ header {
 .post-metadata time {
 	margin-right: 1em;
 }</style>
+
+		<link rel="stylesheet" href="/pagefind/pagefind-ui.css">
 	</head>
 	<body>
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 
 		<header>
 			<a href="/" class="home-link">Thong Bui&#39;s Home</a>
+			<div class="search" id="search" style="padding-top: 0.5rem;"></div>
 			<nav>
 				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
 				<ul class="nav">
@@ -466,7 +469,7 @@ header {
 	<li><a href="/tags/hoisting/" class="post-tag">hoisting</a></li>
 </ul>
 
-<p>Hoisting trong Javascript là gì?, tại sao có thể gán được biến, gọi được hàm trước khi định nghĩa nó. Hoisting hoạt động như thế nào? Cùng tìm hiểu trong bài dưới đây.</p>
+<div class="post-content" data-pagefind-body=""><p>Hoisting trong Javascript là gì?, tại sao có thể gán được biến, gọi được hàm trước khi định nghĩa nó. Hoisting hoạt động như thế nào? Cùng tìm hiểu trong bài dưới đây.</p>
 <h2 id="hoisting-la-gi">Hoisting là gì?</h2>
 <p>Hoisting là cơ chế trong đó các khai báo biến và hàm sẽ được hoisted lên đầu phạm vi (scope) của chúng trước khi được thực thi.</p>
 <h3 id="phan-biet-undefined-va-referenceerror">Phân biệt undefined và ReferenceError</h3>
@@ -546,7 +549,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 </li>
 </ul>
 <p>Theo mình không nên dựa dẫm vào hoisting. Điều này dễ gây nhầm lẫn và dễ gây bug trong code. Chúng ta nên từ bỏ việc dùng var để khai báo biến, thay vào đó ta nên sử dụng let và const (ES6)</p>
-
+</div>
 <ul class="links-nextprev"><li class="links-nextprev-next">Next →<br><a href="/blog/phan-biet-let-const-var/">Phân biệt let, const, var</a></li>
 </ul>
 
@@ -557,7 +560,21 @@ console<span class="token punctuation">.</span><span class="token function">log<
 			<p>© 2021 <a href="/">Thong Bui</a>. All rights reserved</p>
 		</footer>
 
-		<!-- This page `/blog/hoisting-trong-javascript/` was built on 2024-12-24T12:55:10.855Z -->
+		<!-- This page `/blog/hoisting-trong-javascript/` was built on 2024-12-24T14:48:48.034Z -->
 		<script type="module" src="/dist/rJ3_G-2ArF.js"></script>
+		<script src="/pagefind/pagefind-ui.js"></script>
+		<script>
+			window.addEventListener("DOMContentLoaded", (event) => {
+				new PagefindUI({
+					element: "#search",
+					showSubResults: false,
+					showImages: false,
+					debounceTimeoutMs: 100,
+					processTerm: function (term) {
+						return term.replace(/aa/g, 'ā');
+					}
+				});
+			});
+		</script>
 	</body>
 </html>

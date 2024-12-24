@@ -439,12 +439,15 @@ header {
 .post-metadata time {
 	margin-right: 1em;
 }</style>
+
+		<link rel="stylesheet" href="/pagefind/pagefind-ui.css">
 	</head>
 	<body>
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 
 		<header>
 			<a href="/" class="home-link">Thong Bui&#39;s Home</a>
+			<div class="search" id="search" style="padding-top: 0.5rem;"></div>
 			<nav>
 				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
 				<ul class="nav">
@@ -466,7 +469,7 @@ header {
 	<li><a href="/tags/timzone/" class="post-tag">timzone</a></li>
 </ul>
 
-<p>Làm việc trong dự án cần hỗ trợ nhiều timezone thì việc xử lý date time theo múi giờ của client là điều bắt buộc. Một document được tạo ở Anh lúc 15h, thì ông nhân viên ở Los Angeles phải thấy tài liệu đó được tạo lúc 7h sáng, ông nhân viên khác ở Việt Nam phải thấy tại liệu đó được tạo lúc 22h.</p>
+<div class="post-content" data-pagefind-body=""><p>Làm việc trong dự án cần hỗ trợ nhiều timezone thì việc xử lý date time theo múi giờ của client là điều bắt buộc. Một document được tạo ở Anh lúc 15h, thì ông nhân viên ở Los Angeles phải thấy tài liệu đó được tạo lúc 7h sáng, ông nhân viên khác ở Việt Nam phải thấy tại liệu đó được tạo lúc 22h.</p>
 <h2 id="luon-su-dung-date-time-utc">Luôn sử dụng date time UTC</h2>
 <p>Trường hợp dự án của bạn không có yêu cầu cấu hình timezone, chỉ cần hiển thị theo đúng với timezone của client thì bạn chỉ cần làm như sau:</p>
 <p>Chuyển đổi thành giờ UTC trước khi gởi request xuống BE:</p>
@@ -520,7 +523,7 @@ request<span class="token punctuation">.</span>dueDate <span class="token operat
 </li>
 </ul>
 <p>Xem thêm: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date">Date</a></p>
-
+</div>
 <ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/ng-container-ng-content-ng-template-va-ngtemplateoutlet-trong-angular/">Phân biệt ng-container, ng-content, ng-template và ngTemplateOutlet trong Angular</a></li>
 </ul>
 
@@ -531,7 +534,21 @@ request<span class="token punctuation">.</span>dueDate <span class="token operat
 			<p>© 2021 <a href="/">Thong Bui</a>. All rights reserved</p>
 		</footer>
 
-		<!-- This page `/blog/van-de-timezone-trong-du-an/` was built on 2024-12-24T12:55:10.856Z -->
+		<!-- This page `/blog/van-de-timezone-trong-du-an/` was built on 2024-12-24T14:48:48.037Z -->
 		<script type="module" src="/dist/rJ3_G-2ArF.js"></script>
+		<script src="/pagefind/pagefind-ui.js"></script>
+		<script>
+			window.addEventListener("DOMContentLoaded", (event) => {
+				new PagefindUI({
+					element: "#search",
+					showSubResults: false,
+					showImages: false,
+					debounceTimeoutMs: 100,
+					processTerm: function (term) {
+						return term.replace(/aa/g, 'ā');
+					}
+				});
+			});
+		</script>
 	</body>
 </html>

@@ -439,12 +439,15 @@ header {
 .post-metadata time {
 	margin-right: 1em;
 }</style>
+
+		<link rel="stylesheet" href="/pagefind/pagefind-ui.css">
 	</head>
 	<body>
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 
 		<header>
 			<a href="/" class="home-link">Thong Bui&#39;s Home</a>
+			<div class="search" id="search" style="padding-top: 0.5rem;"></div>
 			<nav>
 				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
 				<ul class="nav">
@@ -467,7 +470,7 @@ header {
 	<li><a href="/tags/ngmodel/" class="post-tag">ngmodel</a></li>
 </ul>
 
-<p>Angular tuân thủ luồng dữ liệu 1 chiều (unidirectional data flow), tuy vậy chúng ta vẫn có thể áp dụng Two-Way Data Binding. Trong bài viết này, chúng ta sẽ tìm hiểu về Two-Way Data Binding và cách tạo một custom Two-Way Data Binding.</p>
+<div class="post-content" data-pagefind-body=""><p>Angular tuân thủ luồng dữ liệu 1 chiều (unidirectional data flow), tuy vậy chúng ta vẫn có thể áp dụng Two-Way Data Binding. Trong bài viết này, chúng ta sẽ tìm hiểu về Two-Way Data Binding và cách tạo một custom Two-Way Data Binding.</p>
 <h2 id="two-way-binding-voi-ngmodel">Two-way Binding với ngModel</h2>
 <p>Kể từ Angluar2+, Two-Way Data Binding không còn là mặc định trong Angular, thay vào đó là One-Way Data Binding. Thay đổi lớn trong cơ chế change detection đã giúp Angular cải thiện hiệu suất so với AngularJS.</p>
 <p>Tuy nhiên trong Angular bạn vẫn có thể sử dụng directive <code>ngModel</code> để áp dụng Two-Way Data Binding.</p>
@@ -506,7 +509,7 @@ header {
 <p>Cân nhắc lý do quyết định sử dụng two-way binding trong dự án.</p>
 </li>
 </ul>
-
+</div>
 <ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/component-interaction-trong-angular/">Component interaction trong angular</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/ng-container-ng-content-ng-template-va-ngtemplateoutlet-trong-angular/">Phân biệt ng-container, ng-content, ng-template và ngTemplateOutlet trong Angular</a></li>
 </ul>
 
@@ -517,7 +520,21 @@ header {
 			<p>© 2021 <a href="/">Thong Bui</a>. All rights reserved</p>
 		</footer>
 
-		<!-- This page `/blog/two-way-data-binding-trong-angular/` was built on 2024-12-24T12:55:10.856Z -->
+		<!-- This page `/blog/two-way-data-binding-trong-angular/` was built on 2024-12-24T14:48:48.036Z -->
 		<script type="module" src="/dist/rJ3_G-2ArF.js"></script>
+		<script src="/pagefind/pagefind-ui.js"></script>
+		<script>
+			window.addEventListener("DOMContentLoaded", (event) => {
+				new PagefindUI({
+					element: "#search",
+					showSubResults: false,
+					showImages: false,
+					debounceTimeoutMs: 100,
+					processTerm: function (term) {
+						return term.replace(/aa/g, 'ā');
+					}
+				});
+			});
+		</script>
 	</body>
 </html>

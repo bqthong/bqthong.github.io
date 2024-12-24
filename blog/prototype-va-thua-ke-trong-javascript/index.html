@@ -439,12 +439,15 @@ header {
 .post-metadata time {
 	margin-right: 1em;
 }</style>
+
+		<link rel="stylesheet" href="/pagefind/pagefind-ui.css">
 	</head>
 	<body>
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 
 		<header>
 			<a href="/" class="home-link">Thong Bui&#39;s Home</a>
+			<div class="search" id="search" style="padding-top: 0.5rem;"></div>
 			<nav>
 				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
 				<ul class="nav">
@@ -467,7 +470,7 @@ header {
 	<li><a href="/tags/prototype/" class="post-tag">prototype</a></li>
 </ul>
 
-<p>Javascript có phải là ngôn ngữ lập trình hướng đối tượng? Prototype là gì? Làm sao để thừa kế trong Javascript, cùng tìm hiểu trong bài viết nhé.</p>
+<div class="post-content" data-pagefind-body=""><p>Javascript có phải là ngôn ngữ lập trình hướng đối tượng? Prototype là gì? Làm sao để thừa kế trong Javascript, cùng tìm hiểu trong bài viết nhé.</p>
 <h2 id="prototype-la-gi">Prototype là gì ?</h2>
 <p>Trước hết, JavaScript không phải là một ngôn ngữ lập trình hướng đối tượng (OOP) thuần túy như Java hoặc C++. JavaScript sử dụng object và prototype để triển khai lập trình hướng đối tượng. Vậy prototype là gì?</p>
 <blockquote>
@@ -567,7 +570,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>Thừa kế phương thức: Sử dụng Object.create() hoặc từ khóa new</p>
 </li>
 </ul>
-
+</div>
 <ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/tu-khoa-this-trong-javascript/">Từ khóa this trong Javascript</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/angular-lifecycle-va-change-detection/">Angular lifecycle và Change Detection</a></li>
 </ul>
 
@@ -578,7 +581,21 @@ console<span class="token punctuation">.</span><span class="token function">log<
 			<p>© 2021 <a href="/">Thong Bui</a>. All rights reserved</p>
 		</footer>
 
-		<!-- This page `/blog/prototype-va-thua-ke-trong-javascript/` was built on 2024-12-24T12:55:10.856Z -->
+		<!-- This page `/blog/prototype-va-thua-ke-trong-javascript/` was built on 2024-12-24T14:48:48.035Z -->
 		<script type="module" src="/dist/rJ3_G-2ArF.js"></script>
+		<script src="/pagefind/pagefind-ui.js"></script>
+		<script>
+			window.addEventListener("DOMContentLoaded", (event) => {
+				new PagefindUI({
+					element: "#search",
+					showSubResults: false,
+					showImages: false,
+					debounceTimeoutMs: 100,
+					processTerm: function (term) {
+						return term.replace(/aa/g, 'ā');
+					}
+				});
+			});
+		</script>
 	</body>
 </html>

@@ -271,12 +271,15 @@ header {
 .post-metadata time {
 	margin-right: 1em;
 }</style>
+
+		<link rel="stylesheet" href="/pagefind/pagefind-ui.css">
 	</head>
 	<body>
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 
 		<header>
 			<a href="/" class="home-link">Thong Bui&#39;s Home</a>
+			<div class="search" id="search" style="padding-top: 0.5rem;"></div>
 			<nav>
 				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
 				<ul class="nav">
@@ -292,17 +295,11 @@ header {
 			<heading-anchors>
 				
 
-<h1 id="recent-10-posts">Recent 10 Posts</h1>
+<h1 id="recent-8-posts">Recent 8 Posts</h1>
 
 
 
 <ol class="postlist">
-	<li class="postlist-item">
-		<a href="/blog/hoisting-trong-javascript/" class="postlist-link">Hoisting trong Javascript</a>
-		<time class="postlist-date" datetime="18/03/2020">18/03/2020</time></li>
-	<li class="postlist-item">
-		<a href="/blog/phan-biet-let-const-var/" class="postlist-link">Phân biệt let, const, var</a>
-		<time class="postlist-date" datetime="28/03/2020">28/03/2020</time></li>
 	<li class="postlist-item">
 		<a href="/blog/scope-trong-javascript/" class="postlist-link">Scope trong Javascript</a>
 		<time class="postlist-date" datetime="30/03/2020">30/03/2020</time></li>
@@ -332,6 +329,8 @@ header {
 
 
 
+<p>2 more posts can be found in <a href="/blog/">the archive</a>.</p>
+
 
 			</heading-anchors>
 		</main>
@@ -340,7 +339,21 @@ header {
 			<p>© 2021 <a href="/">Thong Bui</a>. All rights reserved</p>
 		</footer>
 
-		<!-- This page `/` was built on 2024-12-24T12:55:10.854Z -->
+		<!-- This page `/` was built on 2024-12-24T14:48:48.033Z -->
 		<script type="module" src="/dist/rJ3_G-2ArF.js"></script>
+		<script src="/pagefind/pagefind-ui.js"></script>
+		<script>
+			window.addEventListener("DOMContentLoaded", (event) => {
+				new PagefindUI({
+					element: "#search",
+					showSubResults: false,
+					showImages: false,
+					debounceTimeoutMs: 100,
+					processTerm: function (term) {
+						return term.replace(/aa/g, 'ā');
+					}
+				});
+			});
+		</script>
 	</body>
 </html>

@@ -439,12 +439,15 @@ header {
 .post-metadata time {
 	margin-right: 1em;
 }</style>
+
+		<link rel="stylesheet" href="/pagefind/pagefind-ui.css">
 	</head>
 	<body>
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 
 		<header>
 			<a href="/" class="home-link">Thong Bui&#39;s Home</a>
+			<div class="search" id="search" style="padding-top: 0.5rem;"></div>
 			<nav>
 				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
 				<ul class="nav">
@@ -469,7 +472,7 @@ header {
 	<li><a href="/tags/ngtemplateoutlet/" class="post-tag">ngtemplateoutlet</a></li>
 </ul>
 
-<p>ng container, ng-content, ng-template, và ngTemplateOutlet là các khái niệm liên quan đến hiển thị content và template trong angular. Vậy khi nào thì dùng cái nào, cùng mình tìm hiểu trong bài viết dưới đây.</p>
+<div class="post-content" data-pagefind-body=""><p>ng container, ng-content, ng-template, và ngTemplateOutlet là các khái niệm liên quan đến hiển thị content và template trong angular. Vậy khi nào thì dùng cái nào, cùng mình tìm hiểu trong bài viết dưới đây.</p>
 <h2 id="ng-container">ng-container</h2>
 <p><strong>ng-container</strong> dùng để tạo một container ảo để bọc các phần tử khác trong template mà không thêm tag trong DOM.</p>
 <p>Ví dụ, đoạn code dưới đây render cell template trong table:</p>
@@ -592,7 +595,7 @@ header {
 <p><strong>ng-content</strong> dùng để chèn content từ component cha đến component con qua các projection slots (không thể truyền context variables)</p>
 </li>
 </ul>
-
+</div>
 <ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/two-way-data-binding-trong-angular/">Two-way data binding trong Angular</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/van-de-timezone-trong-du-an/">Vấn đề timezone trong dự án</a></li>
 </ul>
 
@@ -603,7 +606,21 @@ header {
 			<p>© 2021 <a href="/">Thong Bui</a>. All rights reserved</p>
 		</footer>
 
-		<!-- This page `/blog/ng-container-ng-content-ng-template-va-ngtemplateoutlet-trong-angular/` was built on 2024-12-24T12:55:10.855Z -->
+		<!-- This page `/blog/ng-container-ng-content-ng-template-va-ngtemplateoutlet-trong-angular/` was built on 2024-12-24T14:48:48.034Z -->
 		<script type="module" src="/dist/rJ3_G-2ArF.js"></script>
+		<script src="/pagefind/pagefind-ui.js"></script>
+		<script>
+			window.addEventListener("DOMContentLoaded", (event) => {
+				new PagefindUI({
+					element: "#search",
+					showSubResults: false,
+					showImages: false,
+					debounceTimeoutMs: 100,
+					processTerm: function (term) {
+						return term.replace(/aa/g, 'ā');
+					}
+				});
+			});
+		</script>
 	</body>
 </html>
